@@ -13,6 +13,7 @@ services:
       - REST_API_HOST=http://localhost:8000
       - REST_API_HOST_PORT=""
       - REST_API_WS_PROTOCOL=ws
+
   webapi:
     build: ./app/backend
     command: python manage.py runserver 0.0.0.0:8000
