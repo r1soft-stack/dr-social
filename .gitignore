@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Backend dr-social
+secrets.env
+data_db
+data_db_mongo
+data_audit_db

@@ -1,0 +1,91 @@
+version: "3.8"
+
+services:
+  webapi:
+    build: .
+    # command: bash -c "python manage.py collectstatic --noinput && gunicorn --bind :8000 --workers 3 dr_social_backend.wsgi:application"
+    command: 
+      - python -m django startproject dr_social_backend
+      - python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - "./app:/usr/src/app:rw"
+    ports:
+      - "8000:8000"
+    links:
+      - db
+      - audit_db
+      - mongo
+      - redis
+    depends_on:
+      - db
+      - audit_db
+      - mongo
+      - redis
+    env_file:
+      - "./secrets.env"
+    cap_add:
+      - SYS_ADMIN
+      - DAC_READ_SEARCH
+    privileged: true
+
+  webasgi:
+    build: .
+    command: daphne -b 0.0.0.0 -p 8001 dr_social_backend.asgi:application
+    volumes:
+      - "./app:/usr/src/app:rw"
+    ports:
+      - "8001:8001"
+    links:
+      - db
+      - audit_db
+      - redis
+    depends_on:
+      - db
+      - audit_db
+      - redis
+    env_file:
+      - "./secrets.env"
+
+  db:
+    image: postgres:10.5
+    volumes:
+      - "./data_db:/var/lib/postgresql/data:rw"
+    ports:
+      - "5432:5432"
+
+  audit_db:
+    image: postgres:10.5
+    volumes:
+      - "./data_audit_db:/var/lib/postgresql/data:rw"
+    ports:
+      - "5433:5432"
+
+  redis:
+    image: redis:alpine
+
+  mongo:
+    image: mongo
+    volumes:
+      - "./data_db_mongo:/data/db:rw"
+    ports:
+      - "27017:27017"
+    restart: always
+    env_file:
+      - "./secrets.env"
+
+  # Celery worker :: watchmedo auto-restart --directory=./credentials/ --pattern=*.py --recursive -- celery --app dr_social_backend worker --loglevel INFO
+  worker:
+    build: .
+    command: watchmedo auto-restart --pattern=*.py --recursive -- celery --app dr_social_backend worker --loglevel INFO
+    volumes:
+      - "./app:/usr/src/app:rw"
+    links:
+      - redis
+      - db
+      - audit_db
+    depends_on:
+      - db
+      - audit_db
+      - redis
+    env_file:
+      - "./secrets.env"

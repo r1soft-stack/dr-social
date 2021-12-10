@@ -1,0 +1,14 @@
+Django
+channels
+channels-redis
+asgiref
+daphne
+celery
+djangorestframework
+djangorestframework-simplejwt
+gunicorn
+psycopg2
+PyJWT
+pymongo
+urllib3
+watchdog[watchmedo]
