@@ -4,7 +4,7 @@ version: "3.8"
 services:
   frontend:
     build: ./app/frontend
-    command: serve -s app/build
+    command: serve -s /usr/src/app/build
     volumes:
       - ./app/frontend/dr_social_frontend:/usr/src/app:Z
     ports:
