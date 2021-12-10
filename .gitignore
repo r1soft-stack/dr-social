@@ -133,3 +133,6 @@ secrets.env
 data_db
 data_db_mongo
 data_audit_db
+
+# Frontend dr-social
+app/frontend/dr_social_frontend/node_modules

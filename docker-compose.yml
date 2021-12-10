@@ -1,14 +1,23 @@
 version: "3.8"
 
+# command: bash -c "python manage.py collectstatic --noinput && gunicorn --bind :8000 --workers 3 dr_social_backend.wsgi:application"
 services:
-  webapi:
-    build: .
-    # command: bash -c "python manage.py collectstatic --noinput && gunicorn --bind :8000 --workers 3 dr_social_backend.wsgi:application"
-    command: 
-      - python -m django startproject dr_social_backend
-      - python manage.py runserver 0.0.0.0:8000
+  frontend:
+    build: ./app/frontend
+    command: serve -s app/build
     volumes:
-      - "./app:/usr/src/app:rw"
+      - ./app/frontend/dr_social_frontend:/usr/src/app:Z
+    ports:
+      - "3000:3000"
+    environment:
+      - REST_API_HOST=http://localhost:8000
+      - REST_API_HOST_PORT=""
+      - REST_API_WS_PROTOCOL=ws
+  webapi:
+    build: ./app/backend
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - "./app/backend/dr_social_backend/:/usr/src/app:rw"
     ports:
       - "8000:8000"
     links:
@@ -29,10 +38,10 @@ services:
     privileged: true
 
   webasgi:
-    build: .
+    build: ./app/backend
     command: daphne -b 0.0.0.0 -p 8001 dr_social_backend.asgi:application
     volumes:
-      - "./app:/usr/src/app:rw"
+      - "./app/backend/dr_social_backend/:/usr/src/app:rw"
     ports:
       - "8001:8001"
     links:
@@ -75,10 +84,10 @@ services:
 
   # Celery worker :: watchmedo auto-restart --directory=./credentials/ --pattern=*.py --recursive -- celery --app dr_social_backend worker --loglevel INFO
   worker:
-    build: .
+    build: ./app/backend
     command: watchmedo auto-restart --pattern=*.py --recursive -- celery --app dr_social_backend worker --loglevel INFO
     volumes:
-      - "./app:/usr/src/app:rw"
+      - "./app/backend/dr_social_backend:/usr/src/app:rw"
     links:
       - redis
       - db

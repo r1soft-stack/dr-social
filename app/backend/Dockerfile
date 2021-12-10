@@ -18,7 +18,6 @@ USER dr-social
 
 # Environment Variables
 ENV PYTHONUNBUFFERED=1
+RUN chmod +x /usr/src/app/setup.sh
 
-COPY ./app /usr/src/app/
-
-CMD [ "sh", "-c", "python -m django startproject dr_social_backend && cd dr_social_backend && python manage.py collectstatic --noinput" ]
+COPY dr_social_backend/ /usr/src/app/
