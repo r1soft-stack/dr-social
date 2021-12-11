@@ -17,7 +17,7 @@ services:
 
   webapi:
     build: ./app/backend
-    command: python manage.py runserver 0.0.0.0:8000
+    command: sh /usr/src/app/setup.sh
     volumes:
       - "./app/backend/dr_social_backend/:/usr/src/app:rw"
     ports:

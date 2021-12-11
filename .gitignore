@@ -137,3 +137,4 @@ data_audit_db
 # Frontend dr-social
 app/frontend/dr_social_frontend/node_modules
 /.idea/
+/app/backend/dr_social_backend/dr_social_backend/static/
