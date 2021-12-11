@@ -26,10 +26,9 @@ RUN useradd dr-social \
 USER dr-social
 
 # Install `serve` to run the application.
-RUN export NODE_OPTIONS=--openssl-legacy-provider \
-    && npm install -g serve \
-    && npm install \
-    && npm run build
+ENV NODE_OPTIONS=--openssl-legacy-provider
+RUN npm install -g serve \
+    && npm install
 
 # Starting the prodcution optimized build
-CMD serve -s build -l 5000
+CMD serve -s build -l 3000
