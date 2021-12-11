@@ -27,8 +27,8 @@ USER dr-social
 
 # Install `serve` to run the application.
 ENV NODE_OPTIONS=--openssl-legacy-provider
-RUN npm install \
-    && npm run build
+RUN npm install -g serve \
+    && npm install
 
 # Starting the prodcution optimized build
 CMD serve -s build -l 3000

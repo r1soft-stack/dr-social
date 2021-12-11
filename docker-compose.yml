@@ -1,10 +1,11 @@
 version: "3.8"
 
 # command: bash -c "python manage.py collectstatic --noinput && gunicorn --bind :8000 --workers 3 dr_social_backend.wsgi:application"
+# serve -s build -l 3000
 services:
   frontend:
     build: ./app/frontend
-    command: serve -s build -l 3000
+    command: npm start
     volumes:
       - ./app/frontend/dr_social_frontend:/usr/src/app:Z
     ports:
