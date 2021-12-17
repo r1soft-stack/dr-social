@@ -13,6 +13,8 @@ django-oauth-toolkit
 PyJWT
 django-cors-headers
 
+python-dotenv
+
 mkdocs
 
 psycopg2
