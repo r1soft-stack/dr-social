@@ -50,7 +50,7 @@ class UserDetails(generics.RetrieveAPIView):
     serializer_class = UserSerializer
 
 
-api = [
+api_v1 = [
     path('docs/', include_docs_urls(public=False, title='Ristrutturatori planetari',
                                         description='API Galattiche')),
     path('users/', UserList.as_view()),
@@ -60,6 +60,6 @@ api = [
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
-    path('api/', include(api)),
+    path('api/v1/', include(api_v1)),
     path('', views.index, name='index')
 ]
