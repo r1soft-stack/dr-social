@@ -1,7 +1,6 @@
-:PHONY all
+PHONY: all
 
-dr-setup:
-	
+all: dr-up dr-up-b dr-build dr-clean
 
 dr-up:
 	docker compose up
@@ -16,3 +15,6 @@ dr-build:
 dr-clean:
 	docker compose stop
 	docker compose rm
+
+compose-convert:
+	kompose convert
