@@ -1,0 +1,23 @@
+environmentName: dev
+
+image:
+  tag: master
+  imagePullPolicy: Always
+
+ingress:
+  use: false
+
+istio:
+  use: true
+  interface:
+    domain: interface.dr-social.org
+    cname: interface.dr-social.org
+  api:
+    domain: api.dr-social.org
+    cname: api.dr-social.org
+  websockets:
+    domain: asgi.dr-social.org
+    cname: asgi.dr-social.org
+  worker:
+    domain: worker.dr-social.org
+    cname: worker.dr-social.org
