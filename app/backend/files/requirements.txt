@@ -12,6 +12,7 @@ djangorestframework-simplejwt
 django-oauth-toolkit
 PyJWT
 django-cors-headers
+coreapi
 
 python-dotenv
 

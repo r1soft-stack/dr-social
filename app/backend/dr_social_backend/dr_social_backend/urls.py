@@ -14,13 +14,52 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.auth.models import User
 from django.urls import path, include
 
+from rest_framework import routers
+from rest_framework import generics, permissions, serializers
+from rest_framework.documentation import include_docs_urls
+
+from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
+
 from . import views
+
+handler404 = 'dr_social_backend.views.not_found'
+handler500 = 'dr_social_backend.views.server_error'
+handler403 = 'dr_social_backend.views.not_found'
+handler400 = 'dr_social_backend.views.not_found'
+
+
+# first we define the serializers
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'email', "first_name", "last_name")
+
+
+class UserList(generics.ListCreateAPIView):
+    permission_classes = [permissions.IsAuthenticated, TokenHasReadWriteScope]
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserDetails(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated, TokenHasReadWriteScope]
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+api = [
+    path('docs/', include_docs_urls(public=False, title='Ristrutturatori planetari',
+                                        description='API Galattiche')),
+    path('users/', UserList.as_view()),
+    path('users/<pk>/', UserDetails.as_view()),
+]
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
-    path('', views.index, name='index'),
-    path('login/', views.login, name='login'),
+    path('api/', include(api)),
+    path('', views.index, name='index')
 ]

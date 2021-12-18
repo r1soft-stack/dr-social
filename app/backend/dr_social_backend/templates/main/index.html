@@ -1,5 +1,24 @@
 {% include "common/header.html" %}
 
-index
+<div class="container-fluid">
+    <div class="row justify-content-center" style="margin-top: 20rem;">
+        <div class="col-lg-8 col-md-6 col-sm-6 text-center">
+            <div class="card text-center border-primary">
+                <div class="card-header">
+                    {{ body_content.card.header }}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ body_content.card.content }}</h5>
+                    <p class="card-text">{{ body_content.card.header }}</p>
+                    <a href="/admin/" class="btn btn-primary">{{ body_content.card.admin_button }}</a>
+                    <a href="//localhost:3000" class="btn btn-outline-info">{{ body_content.card.frontend_button }}</a>
+                </div>
+                <div class="card-footer text-muted">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% include "common/footer.html" %}
