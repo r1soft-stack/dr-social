@@ -51,8 +51,7 @@ class UserDetails(generics.RetrieveAPIView):
 
 
 api_v1 = [
-    path('docs/', include_docs_urls(public=False, title='Ristrutturatori planetari',
-                                        description='API Galattiche')),
+    path('docs/', include_docs_urls(public=False, title='Ristrutturatori planetari', description='API Galattiche')),
     path('users/', UserList.as_view()),
     path('users/<pk>/', UserDetails.as_view()),
 ]
