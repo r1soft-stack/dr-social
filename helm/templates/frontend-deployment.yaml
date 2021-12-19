@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert
+    kompose.cmd: kompose convert -o helm/templates
     kompose.version: 1.26.0 (HEAD)
   creationTimestamp: null
   labels:
@@ -18,7 +18,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert
+        kompose.cmd: kompose convert -o helm/templates
         kompose.version: 1.26.0 (HEAD)
       creationTimestamp: null
       labels:
@@ -35,7 +35,7 @@ spec:
               value: '""'
             - name: REST_API_WS_PROTOCOL
               value: ws
-          image: frontend
+          image: dr-social_frontend
           name: frontend
           ports:
             - containerPort: 3000
